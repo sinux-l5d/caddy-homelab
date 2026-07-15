@@ -11,7 +11,13 @@
     {
       "matchManagers": ["dockerfile"],
       "matchPackageNames": ["caddy"],
-      "groupName": "caddy docker image"
+      "separateMinorPatch": true
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": ["caddy"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
     }
   ]
 }
