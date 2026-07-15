@@ -11,15 +11,17 @@
     {
       "matchManagers": ["dockerfile"],
       "matchPackageNames": ["caddy"],
-      "separateMinorPatch": true
+      "matchUpdateTypes": ["major"],
+      "groupName": "caddy major",
+      "automerge": false
     },
     {
       "matchManagers": ["dockerfile"],
       "matchPackageNames": ["caddy"],
-      "matchUpdateTypes": ["patch"],
-      "automerge": true,
-      "automergeType": "pr",
-      "platformAutomerge": true
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "caddy minor-patch",
+      "ignoreTests": false,
+      "automerge": true
     }
   ]
 }
