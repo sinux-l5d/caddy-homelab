@@ -1,0 +1,17 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "docker": {
+    "enabled": true,
+    "pinDigests": true
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": ["caddy"],
+      "groupName": "caddy docker image"
+    }
+  ]
+}
