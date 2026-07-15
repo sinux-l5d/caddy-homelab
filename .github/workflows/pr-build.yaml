@@ -1,0 +1,45 @@
+name: Test Build (PR)
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - Dockerfile
+      - .github/workflows/pr-build.yml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          load: true
+          tags: caddy-test:pr-${{ github.event.pull_request.number }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test - Caddy runs and shows version
+        run: |
+          docker run --rm caddy-test:pr-${{ github.event.pull_request.number }} caddy version
+
+      - name: Smoke test - OVH DNS plugin is present
+        run: |
+          docker run --rm caddy-test:pr-${{ github.event.pull_request.number }} caddy list-modules | grep -i ovh
