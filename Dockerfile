@@ -1,7 +1,7 @@
-FROM caddy:2.11.7-builder-alpine@sha256:a576be4d0ba99e7259e98268cbac2e2c897feeab8b7b49885cd3cac5409523f8 AS builder
+FROM caddy:2.11.8-builder-alpine@sha256:661f29bb0de2c3ea5eb9cae5783e1c907ef7daa13a4b7db5207c710f51854e4a AS builder
 
 RUN xcaddy build --with github.com/caddy-dns/ovh
 
-FROM caddy:2.11.7-alpine@sha256:d76116d819d5162f464b0f2cd09bd28c568a86148c7bc539ce17c33eb22d8bbb
+FROM caddy:2.11.8-alpine@sha256:3db3a09e418f86a8fce8de4bc0026fccd2b4cd925aef00cc7d843d9fdc75e442
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
